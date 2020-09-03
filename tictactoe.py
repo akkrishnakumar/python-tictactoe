@@ -1,15 +1,17 @@
 # Tic Tac Toe - Python #
+import random
 
-def init_game():
-    return list(
+board = list()
+
+
+def reset_board():
+    global board
+    board = list(
         map(
             lambda pos: " ",
             list(range(0, 9))
         )
     )
-
-
-board = init_game()
 
 
 def separator():
@@ -66,24 +68,51 @@ def validate_user_input(user_input):
         return -1
 
 
+def get_random_pos():
+    return random.randint(1, 9)
+
+
+def board_not_occupied():
+    return " " in board
+
+
+def bots_move():
+    if board_not_occupied():
+        pos = get_random_pos()
+        while board[pos-1] != " ":
+            pos = get_random_pos()
+        board[pos-1] = "O"
+
+
 def play_move(pos):
-    board[pos-1] = "X"
+    if board[pos-1].isspace():
+        board[pos-1] = "X"
+        bots_move()
+    else:
+        print(f"The position {pos} is occupied")
 
 
 def play_game():
     while True:
         print_instructions()
         show_game()
-        user_input = input("Your move: ")
-        isValid = validate_user_input(user_input)
-        if isValid == 1:
-            play_move(int(user_input))
-        elif isValid == 0:
-            exit()
+        if board_not_occupied():
+            user_input = input("Your move: ")
+            print("\n")
+            isValid = validate_user_input(user_input)
+            if isValid == 1:
+                play_move(int(user_input))
+            elif isValid == 0:
+                print("Thanks for playing. Good Bye!")
+                exit()
+            else:
+                print("Wrong Input. Try again")
+                pass
         else:
-            print("Wrong Input. Try again")
-            pass
+            print("\n")
+            print("It's a draw. Let's start again.")
+            reset_board()
 
-
-init_game()
-play_game()
+if __name__ == "__main__":
+    reset_board()
+    play_game()
