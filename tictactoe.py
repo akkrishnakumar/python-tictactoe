@@ -97,6 +97,11 @@ def check_consecutives():
         if curr == board[col+3] and curr == board[col+6] and not empty_cell(curr):
             return curr
 
+    # cross
+    for cross in [[0, 4, 8], [2, 4, 6]]:
+        if board[cross[0]] == board[cross[1]] == board[cross[2]]:
+            return board[cross[0]]
+
     return " "
 
 
