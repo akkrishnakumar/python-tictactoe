@@ -51,12 +51,11 @@ def print_position(value, separator=False):
         print(f" {value} ", end="")
 
 
-def isCellEmpty(cell):
+def empty_cell(cell):
     return cell.isspace()
 
 
 def show_board():
-    # print(f"Board:\n{board}\n")
     for index, value in enumerate(board):
         if (index + 1) % 3 != 0:
             print_position(value, True)
@@ -83,16 +82,26 @@ def board_not_occupied():
     return " " in board
 
 
-def check_horizontal():
+def check_consecutives():
+    # TODO: Akhil - Need to improve the logic here
+
+    # horizontal
     for row in [0, 3, 6]:
         curr = board[row]
-        if curr == board[row+1] and curr == board[row+2] and not isCellEmpty(curr):
+        if curr == board[row+1] and curr == board[row+2] and not empty_cell(curr):
             return curr
+
+    # vertical
+    for col in [0, 1, 2]:
+        curr = board[col]
+        if curr == board[col+3] and curr == board[col+6] and not empty_cell(curr):
+            return curr
+
     return " "
 
 
 def check_winner():
-    cell = check_horizontal()
+    cell = check_consecutives()
     if cell == player or cell == bot:
         return f"{cell} is the Winner!"
     else:
@@ -108,7 +117,7 @@ def bots_move():
 
 
 def play_move(pos):
-    if isCellEmpty(board[pos-1]):
+    if empty_cell(board[pos-1]):
         board[pos-1] = "X"
         return " "
     else:
