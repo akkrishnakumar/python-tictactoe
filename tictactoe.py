@@ -11,6 +11,7 @@ class TicTacToe():
 
     def __init__(self):
         print("Welcome to Tic Tac Toe")
+        self.choose_marker(input("Choose you marker (X/O): "))
         self.reset_board()
 
     def play(self):
@@ -61,7 +62,7 @@ class TicTacToe():
 
     def player_move(self, pos):
         if empty_cell(self.board[pos-1]):
-            self.board[pos-1] = "X"
+            self.board[pos-1] = self.player
             return " "
         else:
             return f"The position {pos} is occupied"
@@ -71,7 +72,7 @@ class TicTacToe():
             pos = self.get_random_pos()
             while self.board[pos-1] != " ":
                 pos = self.get_random_pos()
-            self.board[pos-1] = "O"
+            self.board[pos-1] = self.bot
 
     def check_winner(self):
         cell = self.check_consecutives()
@@ -109,6 +110,14 @@ class TicTacToe():
             return 0
         else:
             return -1
+
+    def choose_marker(self, marker):
+        if marker.upper() == "X" or marker.upper() == "O":
+            print(f"You have chosen '{marker.upper()}'")
+            self.player = marker.upper()
+            self.bot = opposite(marker)
+        else:
+            print("You choice is weird. Defaulting to 'X'")
 
     def print_position(self, value, separator=False):
         if separator:
@@ -154,5 +163,13 @@ class TicTacToe():
     def get_random_pos(self):
         return random.randint(1, 9)
 
+
 def empty_cell(cell):
     return cell.isspace()
+
+
+def opposite(marker):
+    if marker.upper() == "X":
+        return "O"
+    else:
+        return "X"
