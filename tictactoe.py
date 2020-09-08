@@ -77,9 +77,15 @@ class TicTacToe():
     def check_winner(self):
         cell = self.check_consecutives()
         if cell == self.player or cell == self.bot:
-            return f"{cell} is the Winner!"
+            return self.winners_msg(cell)
         else:
             return " "
+
+    def winners_msg(self, winner):
+        if winner == self.player:
+            return "Congratulations! You won the round."
+        else:
+            return "Shoot! Better luck next time."
 
     def check_consecutives(self):
         # TODO: Akhil - Need to improve the logic here
