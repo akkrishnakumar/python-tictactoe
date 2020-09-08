@@ -141,12 +141,7 @@ class TicTacToe():
         return " " in self.board
 
     def reset_board(self):
-        self.board = list(
-            map(
-                lambda pos: " ",
-                list(range(0, 9))
-            )
-        )
+        self.board = [" "] * 9
 
     def print_instructions(self):
         self.separator()
